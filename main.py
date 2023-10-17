@@ -7,25 +7,31 @@ import wx
 # Declaring and setting up the window
 class MainWindow(wx.Frame):
     def __init__(self, parent=None, title="Number Guessing Game"):
-        wx.Frame.__init__(self, parent, title=title, size=(240, 144))
-
-        # Create a panel and sizer so we can put widgets in places
-        panel = wx.Panel(self)
-        sizer = wx.GridSizer(2, 2, 10, 10)
+        # "super" calling the creation of a frame
+        super(MainWindow, self).__init__(parent, title=title, size=(240, 144))
+        self.InitUI()
+        self.Center()
+        self.Show()
+        self.Fit()
         
-        # Create widgets
-        guessPanel = wx.Panel(panel, size=(240, 40))
-        guessSizer = wx.GridSizer(2, 2, 10, 10)
-        guessLabel = wx.StaticText(parent=guessPanel, label="Your guess: ")
-        guessEntry = wx.TextCtrl(parent=guessPanel, size=(100,20))
-        guessSizer.Add(guessPanel, 0, wx.CENTER)
-        guessButton = wx.Button(panel, label="Guess", pos=(0, 90))
+    def InitUI(self):
+        # Window and widget placement objects
+        mainPanel = wx.Panel(self)
+        mainSizer = wx.FlexGridSizer(rows=2, cols=1, hgap=10, vgap=10)
+        guessPanel = wx.Panel(mainPanel)
+        guessSizer = wx.GridSizer(rows=1, cols=2, vgap=10, hgap=10)
+        
+        mainPanel.SetSizer(mainSizer)
+        guessPanel.SetSizer(guessSizer)
 
-        # Show widget
-        sizer.Add(guessSizer)
-        sizer.Add(panel, wx.CENTER)
+        # Widget objects
+        guessLabel = wx.StaticText(parent=mainPanel, label="Your guess: ")
+        guessEntry = wx.TextCtrl(mainPanel, -1)
 
-        self.Show(True)
+        # Add widgets to 
+        mainSizer.Add(guessSizer)
+        guessSizer.Add(guessLabel, 0, wx.ALIGN_CENTER, 0)
+        guessSizer.Add(guessEntry, 0, wx.ALIGN_CENTER, 0)
     
 app = wx.App(False)
 frame = MainWindow()
